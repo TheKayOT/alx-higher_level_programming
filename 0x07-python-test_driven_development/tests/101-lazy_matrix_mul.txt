@@ -1,125 +1,67 @@
-Test cases for matrix_mul
+===============================
+The ``lazy_matrix_mul`` module
+===============================
 
+Using ``lazy_matrix_mul``
+--------------------------
 
-#importing functions
->>> import sys
->>> sys.path.insert(1, './')
->>> func = __import__('101-lazy_matrix_mul').lazy_matrix_mul
->>> m1 = [[1,2,3],[4,5,6],[7,8,9]]
->>> m2 = [[1,2],[4,5,6],[8,9]]
->>> m3 = [[1,2],[3,4],[5,6],[7,8]]
->>> m4 = [[1,-2,3],[4.5,5, ""],[7,8,9]]
->>> m5 = [[1,2,3],[4,5, 6.7],[7,8,9]]
->>> m6 = [[1,2,3,4,5,6,7],[8,9,10,11,12,13,14]]
->>> m7 = [1,2,3]
->>> m8 = []
->>> m9 = [[]]
+Import the function:
 
-#Type checks
->>> func("", m1)
-Traceback (most recent call last):
-...
-TypeError: m_a must be a list
->>> func(9, m1)
-Traceback (most recent call last):
-...
-TypeError: m_a must be a list
->>> func(6.7, m1)
-Traceback (most recent call last):
-...
-TypeError: m_a must be a list
->>> func({}, m1)
-Traceback (most recent call last):
-...
-TypeError: m_a must be a list
->>> func(set(), m1)
-Traceback (most recent call last):
-...
-TypeError: m_a must be a list
->>> func(m1, "")
-Traceback (most recent call last):
-...
-TypeError: m_b must be a list
->>> func(m1, 9)
-Traceback (most recent call last):
-...
-TypeError: m_b must be a list
->>> func(m1, 9.9)
-Traceback (most recent call last):
-...
-TypeError: m_b must be a list
->>> func(m1, {})
-Traceback (most recent call last):
-...
-TypeError: m_b must be a list
->>> func(m1, set())
-Traceback (most recent call last):
-...
-TypeError: m_b must be a list
+    >>> lazy_matrix_mul = __import__('101-lazy_matrix_mul').lazy_matrix_mul
 
+Now test it:
 
->>> func(m7, m1)
-Traceback (most recent call last):
-...
-TypeError: m_a must be a list of lists
->>> func(m1, m7)
-Traceback (most recent call last):
-...
-TypeError: m_b must be a list of lists
+    >>> print(lazy_matrix_mul([[1, 2], [3, 4]], [[1, 2], [3, 4]]))
+    [[ 7 10]
+     [15 22]]
 
-#Value Errors
->>> func(m8, m1)
-Traceback (most recent call last):
-...
-ValueError: m_a can't be empty
+    >>> print(lazy_matrix_mul([[1, 2]], [[3.0, 4], [5, 6.0]]))
+    [[13. 16.]]
 
->>> func(m9, m1)
-Traceback (most recent call last):
-...
-ValueError: m_a can't be empty
+    >>> print(lazy_matrix_mul([[1, -2], [-5, 6]], [[2, 3], [4, -7]]))
+    [[ -6  17]
+     [ 14 -57]]
 
->>> func(m1, m8)
-Traceback (most recent call last):
-...
-ValueError: m_b can't be empty
+    >>> print(lazy_matrix_mul([[1, 2]], 9))
+    Traceback (most recent call last):
+    ValueError: matmul: Input operand 1 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
 
->>> func(m1, m8)
-Traceback (most recent call last):
-...
-ValueError: m_b can't be empty
+    >>> print(lazy_matrix_mul("Hello", [[1, 2]]))
+    Traceback (most recent call last):
+    ValueError: matmul: Input operand 0 does not have enough dimensions (has 0, gufunc core with signature (n?,k),(k,m?)->(n?,m?) requires 1)
 
-#Type Errors
+    >>> print(lazy_matrix_mul(["Betty", "Holberton"], [[1, 2]]))
+    Traceback (most recent call last):
+    ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 1 is different from 2)
 
->>> func(m4, m1)
-Traceback (most recent call last):
-...
-TypeError: m_a should contain only integers or floats
->>> func(m1, m4)
-Traceback (most recent call last):
-...
-TypeError: m_b should contain only integers or floats
+    >>> print(lazy_matrix_mul([[1, 2]], ["Betty", "Holberton"]))
+    Traceback (most recent call last):
+    TypeError: ufunc 'matmul' did not contain a loop with signature matching types dtype('<U21') dtype('<U21') dtype('<U21')
 
->>> func(m2, m4)
-Traceback (most recent call last):
-...
-TypeError: each row of m_a must be of the same size
+    >>> print(lazy_matrix_mul([], [[9, 4]]))
+    Traceback (most recent call last):
+    ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 1 is different from 0)
 
+    >>> print(lazy_matrix_mul([[9, 4]], [[]]))
+    Traceback (most recent call last):
+    ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 1 is different from 2)
 
->>> func(m1, m2)
-Traceback (most recent call last):
-...
-TypeError: each row of m_b must be of the same size
+    >>> print(lazy_matrix_mul([[1, 2], ["Hello", 9]], [[9, 4], [2, 5]]))
+    Traceback (most recent call last):
+    TypeError: ufunc 'matmul' did not contain a loop with signature matching types dtype('<U21') dtype('<U21') dtype('<U21')
 
-# Value Error
->>> func(m1, m6)
-Traceback (most recent call last):
-...
-ValueError: m_a and m_b can't be multiplied
+    >>> print(lazy_matrix_mul([[9, 4], [2, 5]], [[1, 2], ["Hello", 9]]))
+    Traceback (most recent call last):
+    TypeError: ufunc 'matmul' did not contain a loop with signature matching types dtype('<U21') dtype('<U21') dtype('<U21')
 
+    >>> print(lazy_matrix_mul([[9, 4], [2]], [[1, 2], [4, 9]]))
+    Traceback (most recent call last):
+    TypeError: ufunc 'matmul' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''
 
-#Normal tests
->>> func(m1, m1) #doctest: +NORMALIZE_WHITESPACE
-[[30, 36, 42], [66, 81, 96], [102, 126, 150]]
->>> func(m3, m6) #doctest: +NORMALIZE_WHITESPACE
-[[17,  20, 23,    26, 29, 32, 35], [35, 42, 49, 56, 63, 70, 77], [53, 64, 75, 86, 97, 108, 119], [71, 86, 101, 116, 131, 146, 161]]
+    >>> print(lazy_matrix_mul([[9, 4], [2, 7.0]], [[1], [4, 9]]))
+    Traceback (most recent call last):
+    TypeError: ufunc 'matmul' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''
 
+    >>> print(lazy_matrix_mul([[9, 4, 4], [2, 8, 2]], [[1, 2], [4, 9]]))
+    Traceback (most recent call last):
+    ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 2 is different from 3)

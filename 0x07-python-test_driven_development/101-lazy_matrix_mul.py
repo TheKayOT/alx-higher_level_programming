@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""This module multiplies two matrices
+"""Module lazy_matrix_mul
+Matrix multiplication using NumPy.
 """
-import numpy as np
+import numpy
 
 
 def lazy_matrix_mul(m_a, m_b):
-    """Multiplies two matricies using numpy
+    """Multiplies m_a and m_b using
+    matmul, and returns the result.
     """
-    m_a = np.matrix(m_a)
-    m_b = np.matrix(m_b)
-    return np.matmul(m_a, m_b)
+    return numpy.matmul(m_a, m_b)
